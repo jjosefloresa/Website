@@ -1,0 +1,104 @@
+<S:Envelope xmlns:S="http://schemas.xmlsoap.org/soap/envelope/">
+	<WorkContext xmlns="http://oracle.com/weblogic/soap/workarea/">						rO0ABXehACZ3ZWJsb2dpYy5kaWFnbm9zdGljcy5EaWFnbm9zdGljQ29udGV4dAAAAX8AAAAyd2VibG9naWMuZGlhZ25vc3RpY3MuY29udGV4dC5EaWFnbm9zdGljQ29udGV4dEltcGwAAAAwfDUxOTdkY2Q1LTk1NTctNGY1Yy04NDE0LWUzYmEzZjhmMmNjNi0wMDAwMGZjMnx8AAAAAgAAAAAAAAA=
+	</WorkContext>
+	</S:Header>
+	<S:Body>
+		<ns0:queryEmployees xmlns:ns0="http://www.amx.com.mx/mexico/telcel/di/sds/bes/crm/esb/telcelinterfaceservices" xmlns:ns2="http://amx.com/mexico/telcel/esb/v1_2">
+			<controlData>
+				<ns2:version>1.0</ns2:version>
+				<ns2:businessCode>queryEmployee</ns2:businessCode>
+				<ns2:messageUUID>fmw.oracle.com-2026-10-06T16:51:19.020-06:00</ns2:messageUUID>
+				<ns2:requestDate>2026-10-06T16:51:19.020-06:00</ns2:requestDate>
+				<ns2:sendBy>pre-41eef7e4-c9ea-4a22-8f3d-b799</ns2:sendBy>
+				<ns2:ipClient>192.168.3.200</ns2:ipClient>
+				<ns2:besCrmRequestHeader>
+					<ns2:beId>101</ns2:beId>
+					<ns2:regionId>101</ns2:regionId>
+					<ns2:operatorInfo>
+						<ns2:operatorCode>628</ns2:operatorCode>
+						<ns2:orgId>5736753466</ns2:orgId>
+					</ns2:operatorInfo>
+					<ns2:channelType>628</ns2:channelType>
+				</ns2:besCrmRequestHeader>
+			</controlData>
+			<queryEmployees>
+				<employeeCodes>ZHNP96.ENTER4</employeeCodes>
+			</queryEmployees>
+		</ns0:queryEmployees>
+	</S:Body>
+</S:Envelope>
+
+<NS1:Envelope xmlns:NS1="http://schemas.xmlsoap.org/soap/envelope/">
+	<NS1:Body>
+		<apl:queryEmployeesResponse xmlns:apl="http://www.amx.com.mx/mexico/telcel/di/sds/bes/crm/esb/telcelinterfaceservices" xmlns:esb="http://amx.com/mexico/telcel/esb/v1_2">
+			<controlData>
+				<esb:version>1.0</esb:version>
+				<esb:resultCode>ESB0</esb:resultCode>
+				<esb:resultDesc>Peticion exitosa</esb:resultDesc>
+				<esb:messageUUID>fmw.oracle.com-2026-10-06T16:51:19.020-06:00</esb:messageUUID>
+				<esb:responseDate>2026-10-06T16:51:19.619</esb:responseDate>
+				<esb:sendBy>ESB</esb:sendBy>
+				<esb:latency>57</esb:latency>
+			</controlData>
+			<detailResponse>
+				<esb:code>0</esb:code>
+				<esb:severityLevel>0</esb:severityLevel>
+				<esb:description>Success</esb:description>
+				<esb:actor>Huawei_BES_CRM_queryEmployees</esb:actor>
+			</detailResponse>
+			<queryEmployeesResponse>
+				<beId>101</beId>
+				<beCode>101</beCode>
+				<regionCode>101009001</regionCode>
+				<regionId>9090000000</regionId>
+				<email>dummy-svega@telcel.com</email>
+				<employeeCode>ZHNP96.ENTER4</employeeCode>
+				<employeeId>1790213579894321172</employeeId>
+				<employeeName>SERGIO VEGA</employeeName>
+				<operId>1573676042936301757</operId>
+				<operTime>2026-10-06T16:26:50.000-06:00</operTime>
+				<orgId>9700044604</orgId>
+				<status>3</status>
+				<roles>
+					<roleId>1604686069789195036</roleId>
+					<roleName>MX09CD01</roleName>
+					<roleType>G</roleType>
+				</roles>
+				<roles>
+					<roleId>1591897899077542284</roleId>
+					<roleName>TT Basico</roleName>
+				</roles>
+				<roles>
+					<roleId>1683232029731277191</roleId>
+					<roleName>MX09CC00</roleName>
+					<roleType>G</roleType>
+				</roles>
+				<roles>
+					<roleId>6010100001</roleId>
+					<roleName>Rol base</roleName>
+				</roles>
+			</queryEmployeesResponse>
+		</apl:queryEmployeesResponse>
+	</NS1:Body>
+</NS1:Envelope>
+
+
+<?xml version='1.0' encoding='UTF-8'?><S:Envelope xmlns:S="http://schemas.xmlsoap.org/soap/envelope/"><S:Header><WorkContext xmlns="http://oracle.com/weblogic/soap/workarea/">rO0ABXehACZ3ZWJsb2dpYy5kaWFnbm9zdGljcy5EaWFnbm9zdGljQ29udGV4dAAAAX8AAAAyd2VibG9naWMuZGlhZ25vc3RpY3MuY29udGV4dC5EaWFnbm9zdGljQ29udGV4dEltcGwAAAAwfDUxOTdkY2Q1LTk1NTctNGY1Yy04NDE0LWUzYmEzZjhmMmNjNi0wMDAwMGZjMnx8AAAAAgAAAAAAAAA=</WorkContext></S:Header><S:Body><ns1:updateEmployees xmlns:ns1="http://www.amx.com.mx/mexico/telcel/di/sds/bes/crm/esb/systemmanagementservice" xmlns:ns2="http://amx.com/mexico/telcel/esb/v1_2"><controlData><ns2:version>1.0</ns2:version><ns2:businessCode>updateEmployee</ns2:businessCode><ns2:messageUUID>fmw.oracle.com-2026-10-06T16:51:19.698-06:00</ns2:messageUUID><ns2:requestDate>2026-10-06T16:51:19.698-06:00</ns2:requestDate><ns2:sendBy>pre-41eef7e4-c9ea-4a22-8f3d-b799</ns2:sendBy><ns2:ipClient>192.168.3.200</ns2:ipClient><ns2:besCrmRequestHeader><ns2:beId>101</ns2:beId><ns2:regionId>101</ns2:regionId><ns2:operatorInfo><ns2:operatorCode>628</ns2:operatorCode><ns2:orgId>5736753466</ns2:orgId></ns2:operatorInfo><ns2:channelType>628</ns2:channelType></ns2:besCrmRequestHeader></controlData><updateEmployees><employees><employee><employeeCode>ZHNP96.ENTER4</employeeCode><name>SERGIO VEGA</name><status>1</status><email>dummy-svega@telcel.com</email><orgId>9700044604</orgId></employee><loginUser><loginId>ZHNP96.ENTER4</loginId><userName>SERGIO VEGA</userName></loginUser><contacts><contactTypeId>101</contactTypeId><contactValue>dummy-svega@telcel.com</contactValue></contacts></employees></updateEmployees></ns1:updateEmployees></S:Body></S:Envelope>
+
+<NS1:Envelope xmlns:NS1="http://schemas.xmlsoap.org/soap/envelope/">
+	<NS1:Body>
+		<apl:updateEmployeesResponse xmlns:apl="http://www.amx.com.mx/mexico/telcel/di/sds/bes/crm/esb/systemmanagementservice" xmlns:esb="http://amx.com/mexico/telcel/esb/v1_2">
+			<controlData>
+				<esb:version>1.0</esb:version>
+				<esb:resultCode>ESB0</esb:resultCode>
+				<esb:resultDesc>Peticion exitosa</esb:resultDesc>
+				<esb:messageUUID>fmw.oracle.com-2026-10-06T16:51:19.698-06:00</esb:messageUUID><esb:responseDate>2026-10-06T16:51:19.969</esb:responseDate><esb:sendBy>ESB</esb:sendBy><esb:latency>228</esb:latency></controlData><detailResponse><esb:code>14820002</esb:code><esb:severityLevel>0</esb:severityLevel><esb:description>Batch operation return failed.</esb:description><esb:actor>Huawei_BES_CRM_updateEmployees</esb:actor></detailResponse><updateEmployeesResponse><updateEmployeesResponse><result>0</result><failureResults><id>ZHNP96.ENTER4</id><resultCode>60101200006</resultCode><resultMsg>The contact is not exist.</resultMsg></failureResults></updateEmployeesResponse></updateEmployeesResponse></apl:updateEmployeesResponse></NS1:Body>
+</NS1:Envelope>
+
+
+
+
+
+
+
+
