@@ -1,0 +1,166 @@
+Action Plan (What, Why): 
+We reviewed the Scheduler query results in the shared document and checked the SOA upgrade scripts.
+
+The document shows that, at the time of collection:
+
+DELETE_INSTANCES_AUTO_PRG and DELETE_OTHERS_PRG returned no rows.
+Their program arguments returned no rows.
+Jobs referencing these programs returned no rows.
+Five related DELETE% schedules remained.
+This confirms that the required Scheduler metadata was missing when the queries were collected. It explains the ORA-27476 failure because the upgrade script attempts to disable and modify existing programs. The evidence does not yet establish why the objects are missing or whether they were missing before the failed upgrade.
+
+The installed SOA schema-creation scripts include these objects as part of the RCU SOAINFRA creation flow. However, restoring a pre-upgrade backup will recover only the metadata that existed when that backup was taken.
+
+Please follow the procedure below after restoring the database to the agreed pre-upgrade recovery point. If the database has already been restored and no further upgrade or repair has been attempted, collect the inventory from that restored state.
+
+Connect directly as DEVIM_SOAINFRA to the restored database service. Run the following script using SQL*Plus or SQL Developer’s Run Script option (F5). All database queries are read-only.
+
+set echo on
+set feedback on
+set pagesize 500
+set linesize 250
+set trimspool on
+set long 10000
+set longchunksize 10000
+
+spool soainfra_scheduler_inventory_after_restore.log
+
+-- 1. Verify the connection and collection time.
+select systimestamp as collection_time,
+       user as connected_user,
+       sys_context('USERENV', 'CURRENT_SCHEMA') as current_schema,
+       sys_context('USERENV', 'DB_NAME') as database_name,
+       sys_context('USERENV', 'CON_NAME') as container_name,
+       sys_context('USERENV', 'SERVICE_NAME') as service_name
+from dual;
+
+-- 2. Explicitly check both required programs.
+select e.program_name,
+       case when p.program_name is null then 'MISSING'
+            else 'EXISTS'
+       end as object_status,
+       p.program_type,
+       p.program_action,
+       p.number_of_arguments,
+       p.enabled
+from (
+    select 'DELETE_INSTANCES_AUTO_PRG' program_name from dual
+    union all
+    select 'DELETE_OTHERS_PRG' from dual
+) e
+left join user_scheduler_programs p
+       on p.program_name = e.program_name
+order by e.program_name;
+
+-- 3. Collect program argument definitions.
+select program_name,
+       argument_position,
+       argument_name,
+       argument_type,
+       default_value
+from user_scheduler_program_args
+where program_name in (
+    'DELETE_INSTANCES_AUTO_PRG',
+    'DELETE_OTHERS_PRG'
+)
+order by program_name, argument_position;
+
+-- 4. Compare declared and defined argument counts.
+select p.program_name,
+       p.number_of_arguments as declared_arguments,
+       count(a.argument_position) as defined_arguments,
+       min(a.argument_position) as first_position,
+       max(a.argument_position) as last_position
+from user_scheduler_programs p
+left join user_scheduler_program_args a
+       on a.program_name = p.program_name
+where p.program_name in (
+    'DELETE_INSTANCES_AUTO_PRG',
+    'DELETE_OTHERS_PRG'
+)
+group by p.program_name, p.number_of_arguments
+order by p.program_name;
+
+-- 5. Explicitly check the five jobs modified by the upgrade.
+select e.job_name,
+       case when j.job_name is null then 'MISSING'
+            else 'EXISTS'
+       end as object_status,
+       j.program_owner,
+       j.program_name,
+       j.schedule_owner,
+       j.schedule_name,
+       j.enabled,
+       j.state
+from (
+    select 'DELETE_INSTANCES_AUTO_JOB1' job_name from dual
+    union all
+    select 'DELETE_INSTANCES_AUTO_JOB2' from dual
+    union all
+    select 'DELETE_INMEMORY_JOB1' from dual
+    union all
+    select 'DELETE_AWR_JOB1' from dual
+    union all
+    select 'DELETE_HC_JOB1' from dual
+) e
+left join user_scheduler_jobs j
+       on j.job_name = e.job_name
+order by e.job_name;
+
+-- 6. Collect all related jobs, including inline schedules.
+select job_name,
+       program_owner,
+       program_name,
+       job_type,
+       job_action,
+       schedule_owner,
+       schedule_name,
+       schedule_type,
+       start_date,
+       repeat_interval,
+       enabled,
+       state
+from user_scheduler_jobs
+where upper(program_name) in (
+    'DELETE_INSTANCES_AUTO_PRG',
+    'DELETE_OTHERS_PRG'
+)
+   or job_name like 'DELETE%'
+order by program_name, job_name;
+
+-- 7. Collect explicit job argument values.
+select job_name,
+       argument_position,
+       argument_name,
+       value
+from user_scheduler_job_args
+where job_name in (
+    select job_name
+    from user_scheduler_jobs
+    where upper(program_name) in (
+        'DELETE_INSTANCES_AUTO_PRG',
+        'DELETE_OTHERS_PRG'
+    )
+       or job_name like 'DELETE%'
+)
+order by job_name, argument_position;
+
+-- 8. Collect related named schedules.
+select schedule_name,
+       start_date,
+       repeat_interval,
+       end_date
+from user_scheduler_schedules
+where schedule_name like 'DELETE%'
+   or schedule_name in (
+       select schedule_name
+       from user_scheduler_jobs
+       where upper(program_name) in (
+           'DELETE_INSTANCES_AUTO_PRG',
+           'DELETE_OTHERS_PRG'
+       )
+          or job_name like 'DELETE%'
+   )
+order by schedule_name;
+
+spool off
